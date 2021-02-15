@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">BroadcastReceiver</string>
+    <string name="power_connected">Phone Charged !</string>
+    <string name="power_disconnected">Phone Uncharged !</string>
+</resources>
