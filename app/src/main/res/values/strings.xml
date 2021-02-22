@@ -1,5 +1,7 @@
 <resources>
-    <string name="app_name">BroadcastReceiver</string>
+    <string name="app_name">Broadcast Receiver</string>
     <string name="power_connected">Phone Charged !</string>
     <string name="power_disconnected">Phone Uncharged !</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
 </resources>
