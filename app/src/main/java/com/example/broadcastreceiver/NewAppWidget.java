@@ -37,11 +37,14 @@ public class NewAppWidget extends AppWidgetProvider {
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy");
         String dateString= sdf.format(calendar.getTime());
+
         //...+"" automate become String
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.new_app_widget);
         views.setTextViewText(R.id.app_widget_id, appWidgetId+"");
-        views.setTextViewText(R.id.app_widget_update, count+"@"+timeString+"@"+dateString);
+        views.setTextViewText(R.id.app_widget_count, count+"");
+        views.setTextViewText(R.id.app_widget_update_date, dateString+"");
+        views.setTextViewText(R.id.app_widget_update_time, timeString+"");
 
         //Save the last update to shared preference
         //Every 30 min date will be automatically update
