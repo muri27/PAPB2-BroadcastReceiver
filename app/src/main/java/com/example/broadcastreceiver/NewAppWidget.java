@@ -1,5 +1,6 @@
 package com.example.broadcastreceiver;
 
+import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -59,13 +60,32 @@ public class NewAppWidget extends AppWidgetProvider {
         int[] idArray = new int[]{appWidgetId};
         intentUpdate.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, idArray);
 
-        //To send widget must use pendingIntent and it didn't work
-        //when use intent.start()
-        PendingIntent pendingIntent=PendingIntent.getBroadcast(context,
+        //Manipulate auto update on widget use alarm manager (1 minute) <default = 30minute>
+        //Define calendar and then put in alarmManager
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(context,
                 appWidgetId,intentUpdate,PendingIntent.FLAG_UPDATE_CURRENT);
+        Calendar calendar2 = Calendar.getInstance();
+        calendar2.setTimeInMillis(System.currentTimeMillis());
+        //Because we want to update for every minute, then MINUTE+1
+        calendar2.set(Calendar.MINUTE, calendar2.get(Calendar.MINUTE)+1);
+        calendar2.set(Calendar.SECOND,0);
+        calendar2.set(Calendar.MILLISECOND,0);
+        //60+1000 is 1 minute
+        AlarmManager alarmManager=(AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setInexactRepeating(AlarmManager.RTC,
+                calendar2.getTimeInMillis(), 60+1000, alarmIntent);
+
+        //To send widget must use pendingIntent and it didn't work when use intent.start()
+
+        //PendingIntent pendingIntent=PendingIntent.getBroadcast(context,
+         //       appWidgetId,intentUpdate,PendingIntent.FLAG_UPDATE_CURRENT);
+
+        //Open an activity on widget
+        Intent intentActivity = new Intent(context, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
+                intentActivity,0);
         //Define which button that trigger the intent
         views.setOnClickPendingIntent(R.id.button_update,pendingIntent);
-
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
